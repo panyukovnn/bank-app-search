@@ -1,0 +1,64 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPathPattern": "/api/v1/operations/search",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$.clientId"
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": [
+      {
+        "entityType": "OPERATION",
+        "records": [
+          {
+            "id": "pay_001",
+            "name": "Оплата мобильной связи",
+            "categoryCode": "COMMUNICATION",
+            "typeCode": "MOBILE",
+            "icon": "ic_mobile"
+          },
+          {
+            "id": "pay_002",
+            "name": "Оплата интернета",
+            "categoryCode": "COMMUNICATION",
+            "typeCode": "INTERNET",
+            "icon": "ic_internet"
+          }
+        ]
+      },
+      {
+        "entityType": "HISTORY",
+        "operations": [
+          {
+            "id": "txn_001",
+            "name": "Перевод Олегу Т.",
+            "amount": -500.00,
+            "currency": "RUB",
+            "date": "2024-05-14T18:30:00Z"
+          },
+          {
+            "id": "txn_002",
+            "name": "Перевод от Анны С.",
+            "amount": 1500.00,
+            "currency": "RUB",
+            "date": "2024-05-13T10:15:00Z"
+          },
+          {
+            "id": "txn_003",
+            "name": "Оплата ЖКХ",
+            "amount": -3200.50,
+            "currency": "RUB",
+            "date": "2024-05-12T09:00:00Z"
+          }
+        ]
+      }
+    ]
+  }
+}

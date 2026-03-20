@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: "04.insert_page.yml"
+      author: "Panyukov NN"
+      changes:
+        - sqlFile:
+            path: ./sql/20260308_01_insert_page.sql
+            relativeToChangelogFile: true

@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: release/v1.0.0
+      author: "Panyukov NN"
+      changes:
+        - tagDatabase:
+            tag: release/v1.0.0
+  - include:
+      file: 01.create_extension_pg_trgm.yml
+      relativeToChangelogFile: true
+  - include:
+      file: 02.create_table_page.yml
+      relativeToChangelogFile: true
+  - include:
+      file: 03.create_table_latest_result.yml
+      relativeToChangelogFile: true
+  - include:
+      file: 04.insert_page.yml
+      relativeToChangelogFile: true

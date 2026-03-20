@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: "03.create_table_latest_result.yml"
+      author: "Panyukov NN"
+      changes:
+        - createTable:
+            tableName: latest_result
+            remarks: "Последние результаты поиска пользователей"
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pkey_latest_result
+              - column:
+                  name: client_id
+                  type: varchar
+                  remarks: "Идентификатор клиента"
+              - column:
+                  name: search_string
+                  type: varchar
+                  remarks: "Строка поискового запроса"
+
+              - column:
+                  name: create_time
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP AT TIME ZONE 'UTC'
+                  constraints:
+                    nullable: false
+                  remarks: "Время создания"
+              - column:
+                  name: create_user
+                  type: varchar
+                  constraints:
+                    nullable: false
+                  remarks: "Пользователь, создавший запись"
+              - column:
+                  name: last_update_time
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP AT TIME ZONE 'UTC'
+                  constraints:
+                    nullable: false
+                  remarks: "Время обновления"
+              - column:
+                  name: last_update_user
+                  type: varchar
+                  constraints:
+                    nullable: false
+                  remarks: "Пользователь, изменивший запись"

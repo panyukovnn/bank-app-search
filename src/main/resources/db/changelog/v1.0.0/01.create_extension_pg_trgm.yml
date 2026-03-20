@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: "01.create_extension_pg_trgm.yml"
+      author: "Panyukov NN"
+      context: "postgres"
+      changes:
+        - sql:
+            sql: CREATE EXTENSION IF NOT EXISTS pg_trgm;
