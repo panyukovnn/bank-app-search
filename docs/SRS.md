@@ -23,7 +23,7 @@ CREATE
 EXTENSION IF NOT EXISTS pg_trgm;
 
 -- Страницы (экраны) поиска
-CREATE TABLE page
+CREATE TABLE pageEntity
 (
     id               UUID PRIMARY KEY,
     name             VARCHAR, -- Название (например: "Перевод по номеру")
@@ -102,7 +102,7 @@ CREATE TABLE latest_result
       {
         "entityType": "SECTION",
         "entityName": "Разделы",
-        "pages": [
+        "pageEntities": [
           {
             "name": "Перевод по номеру телефона",
             "link": "https://host/transfer/phone",
@@ -153,7 +153,7 @@ CREATE TABLE latest_result
       {
         "entityType": "TOP",
         "entityName": "Популярное",
-        "pages": [
+        "pageEntities": [
           {
             "name": "Кредиты",
             "link": "credit/main"
@@ -179,7 +179,7 @@ CREATE TABLE latest_result
 2. **Опрос источников (Агрегация):**
 
 - **БД (Экраны и приложения):** Если в `searchTypes` есть `PAGE`, выполняется SQL-запрос `LIKE` (или `<->` триграммы) к
-  страницам `page` по их полю `dictionary`. Исключаются страницы с неподдерживаемой версией клиента. Результаты
+  страницам `pageEntity` по их полю `dictionary`. Исключаются страницы с неподдерживаемой версией клиента. Результаты
   ранжируются по релевантности.
 - **История операций:** Если запрошен `HISTORY`, отправляется HTTP-запрос в `operation-history`.
 
@@ -193,7 +193,7 @@ CREATE TABLE latest_result
 
 Вызывается в момент клика на элемент поиска (до ввода текста).
 
-1. Из базы данных извлекаются записи `page`, у которых проставлен флаг `top_result = true`. Эти данные фильтруются под
+1. Из базы данных извлекаются записи `pageEntity`, у которых проставлен флаг `top_result = true`. Эти данные фильтруются под
    текущие `platform` и `clientVersion` клиента.
 2. Запрос в таблицу `latest_result` для получения последних введенных поисковых строк текущего `clientId`.
 3. Сформированные топы (популярное) и недавние поиски отправляются в блоках `section` и `latestSearch` соответственно.

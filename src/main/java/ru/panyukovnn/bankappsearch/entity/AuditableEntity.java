@@ -5,6 +5,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.Instant;
 
@@ -12,6 +13,7 @@ import static ru.panyukovnn.bankappsearch.util.Constant.DEFAULT_DB_USER;
 
 @Getter
 @Setter
+@ToString
 @MappedSuperclass
 public class AuditableEntity {
 

@@ -8,8 +8,8 @@ import ru.panyukovnn.bankappsearch.dto.LatestSearchDto;
 import ru.panyukovnn.bankappsearch.dto.SuggestedRequestData;
 import ru.panyukovnn.bankappsearch.dto.SuggestedResponseData;
 import ru.panyukovnn.bankappsearch.dto.SuggestedSectionDto;
-import ru.panyukovnn.bankappsearch.entity.LatestResult;
-import ru.panyukovnn.bankappsearch.entity.Page;
+import ru.panyukovnn.bankappsearch.entity.LatestResultEntity;
+import ru.panyukovnn.bankappsearch.entity.PageEntity;
 import ru.panyukovnn.bankappsearch.repository.LatestResultRepository;
 import ru.panyukovnn.bankappsearch.repository.PageRepository;
 
@@ -40,7 +40,7 @@ class SuggestedServiceImplUnitTest {
         void when_handleSuggested_withIosPlatform_then_returnsTopPages() {
             UUID pageId = UUID.fromString("f59b2248-3b9a-412c-b2a1-dabdff0d7839");
 
-            Page page = Page.builder()
+            PageEntity pageEntity = PageEntity.builder()
                 .id(pageId)
                 .name("Переводы")
                 .link("/transfers")
@@ -48,7 +48,7 @@ class SuggestedServiceImplUnitTest {
                 .topResult(true)
                 .build();
 
-            when(pageRepository.findByTopResultTrueAndPlatform("ios")).thenReturn(List.of(page));
+            when(pageRepository.findByTopResultTrueAndPlatform("ios")).thenReturn(List.of(pageEntity));
             when(latestResultRepository.findByClientIdOrderByCreateTimeDesc("client1")).thenReturn(List.of());
 
             SuggestedRequestData request = SuggestedRequestData.builder()
@@ -99,7 +99,7 @@ class SuggestedServiceImplUnitTest {
 
         @Test
         void when_handleSuggested_withClientVersion_then_filtersNewerPages() {
-            Page pageWithoutVersion = Page.builder()
+            PageEntity pageEntityWithoutVersion = PageEntity.builder()
                 .id(UUID.fromString("f59b2248-3b9a-412c-b2a1-dabdff0d7839"))
                 .name("Переводы")
                 .link("/transfers")
@@ -108,7 +108,7 @@ class SuggestedServiceImplUnitTest {
                 .topResult(true)
                 .build();
 
-            Page pageWithOlderVersion = Page.builder()
+            PageEntity pageEntityWithOlderVersion = PageEntity.builder()
                 .id(UUID.fromString("7cc96730-2a16-4ee5-a8b8-0545a3e1dcd3"))
                 .name("Платежи")
                 .link("/payments")
@@ -117,7 +117,7 @@ class SuggestedServiceImplUnitTest {
                 .topResult(true)
                 .build();
 
-            Page pageWithNewerVersion = Page.builder()
+            PageEntity pageEntityWithNewerVersion = PageEntity.builder()
                 .id(UUID.fromString("449a5319-92ec-43d2-b884-5d1a80dd5f18"))
                 .name("Кредиты")
                 .link("/credits")
@@ -127,7 +127,7 @@ class SuggestedServiceImplUnitTest {
                 .build();
 
             when(pageRepository.findByTopResultTrueAndPlatform("ios"))
-                .thenReturn(List.of(pageWithoutVersion, pageWithOlderVersion, pageWithNewerVersion));
+                .thenReturn(List.of(pageEntityWithoutVersion, pageEntityWithOlderVersion, pageEntityWithNewerVersion));
             when(latestResultRepository.findByClientIdOrderByCreateTimeDesc("client1")).thenReturn(List.of());
 
             SuggestedRequestData request = SuggestedRequestData.builder()
@@ -153,13 +153,13 @@ class SuggestedServiceImplUnitTest {
             UUID resultId1 = UUID.fromString("3a59e199-e1d7-47d6-b7c2-cc0ac5714451");
             UUID resultId2 = UUID.fromString("3aab5ef3-ac43-4aed-80a6-2a4ad8114d37");
 
-            LatestResult latestResult1 = LatestResult.builder()
+            LatestResultEntity latestResultEntity1 = LatestResultEntity.builder()
                 .id(resultId1)
                 .clientId("client1")
                 .searchString("переводы")
                 .build();
 
-            LatestResult latestResult2 = LatestResult.builder()
+            LatestResultEntity latestResultEntity2 = LatestResultEntity.builder()
                 .id(resultId2)
                 .clientId("client1")
                 .searchString("платежи")
@@ -167,7 +167,7 @@ class SuggestedServiceImplUnitTest {
 
             when(pageRepository.findByTopResultTrueAndPlatform("ios")).thenReturn(List.of());
             when(latestResultRepository.findByClientIdOrderByCreateTimeDesc("client1"))
-                .thenReturn(List.of(latestResult1, latestResult2));
+                .thenReturn(List.of(latestResultEntity1, latestResultEntity2));
 
             SuggestedRequestData request = SuggestedRequestData.builder()
                 .clientId("client1")

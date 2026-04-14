@@ -20,6 +20,16 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/changelog-master.yml
     contexts: postgres
+  cloud:
+    openfeign:
+      client:
+        config:
+          operation-history:
+            connect-timeout: 1000
+            read-timeout: 4000
+  output:
+    ansi:
+      enabled: ALWAYS
 
 logging:
   level:
@@ -28,3 +38,15 @@ logging:
 logbook:
   format:
     style: http
+
+bank-app-search:
+  min-rank: 0.05
+  max-size-latest-results: 10
+  integrations:
+    operation-history:
+      host: http://localhost:8081
+  pools:
+    latest-results-pool:
+      pool-size: 10
+      thread-timeout-seconds: 60
+      queue-size: 1000

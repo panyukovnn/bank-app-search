@@ -8,8 +8,8 @@ import ru.panyukovnn.bankappsearch.dto.PageDto;
 import ru.panyukovnn.bankappsearch.dto.SuggestedRequestData;
 import ru.panyukovnn.bankappsearch.dto.SuggestedResponseData;
 import ru.panyukovnn.bankappsearch.dto.SuggestedSectionDto;
-import ru.panyukovnn.bankappsearch.entity.LatestResult;
-import ru.panyukovnn.bankappsearch.entity.Page;
+import ru.panyukovnn.bankappsearch.entity.LatestResultEntity;
+import ru.panyukovnn.bankappsearch.entity.PageEntity;
 import ru.panyukovnn.bankappsearch.repository.LatestResultRepository;
 import ru.panyukovnn.bankappsearch.repository.PageRepository;
 import ru.panyukovnn.bankappsearch.service.SuggestedService;
@@ -31,16 +31,16 @@ public class SuggestedServiceImpl implements SuggestedService {
 
     @Override
     public SuggestedResponseData handleSuggested(SuggestedRequestData request) {
-        List<Page> topPages = pageRepository.findByTopResultTrueAndPlatform(request.getPlatform());
+        List<PageEntity> topPageEntities = pageRepository.findByTopResultTrueAndPlatform(request.getPlatform());
 
-        List<Page> filteredPages = filterPagesByClientVersion(topPages, request.getClientVersion());
+        List<PageEntity> filteredPageEntities = filterPagesByClientVersion(topPageEntities, request.getClientVersion());
 
-        List<LatestResult> latestResults = latestResultRepository.findByClientIdOrderByCreateTimeDesc(
+        List<LatestResultEntity> latestResultEntities = latestResultRepository.findByClientIdOrderByCreateTimeDesc(
             request.getClientId()
         );
 
-        SuggestedSectionDto section = mapToSuggestedSection(filteredPages);
-        List<LatestSearchDto> latestSearch = mapToLatestSearch(latestResults);
+        SuggestedSectionDto section = mapToSuggestedSection(filteredPageEntities);
+        List<LatestSearchDto> latestSearch = mapToLatestSearch(latestResultEntities);
 
         return SuggestedResponseData.builder()
             .section(List.of(section))
@@ -48,19 +48,19 @@ public class SuggestedServiceImpl implements SuggestedService {
             .build();
     }
 
-    private List<Page> filterPagesByClientVersion(List<Page> pages, String clientVersion) {
+    private List<PageEntity> filterPagesByClientVersion(List<PageEntity> pageEntities, String clientVersion) {
         if (clientVersion == null) {
-            return pages;
+            return pageEntities;
         }
 
-        return pages.stream()
+        return pageEntities.stream()
             .filter(page -> page.getVersion() == null
                 || new ComparableVersion(page.getVersion()).compareTo(new ComparableVersion(clientVersion)) <= 0)
             .toList();
     }
 
-    private SuggestedSectionDto mapToSuggestedSection(List<Page> pages) {
-        List<PageDto> pageDtos = pages.stream()
+    private SuggestedSectionDto mapToSuggestedSection(List<PageEntity> pageEntities) {
+        List<PageDto> pageDtos = pageEntities.stream()
             .map(this::mapToPageDto)
             .toList();
 
@@ -71,24 +71,24 @@ public class SuggestedServiceImpl implements SuggestedService {
             .build();
     }
 
-    private PageDto mapToPageDto(Page page) {
+    private PageDto mapToPageDto(PageEntity pageEntity) {
         return PageDto.builder()
-            .name(page.getName())
-            .link(page.getLink())
+            .name(pageEntity.getName())
+            .link(pageEntity.getLink())
             .icon(null)
             .build();
     }
 
-    private List<LatestSearchDto> mapToLatestSearch(List<LatestResult> latestResults) {
-        return latestResults.stream()
+    private List<LatestSearchDto> mapToLatestSearch(List<LatestResultEntity> latestResultEntities) {
+        return latestResultEntities.stream()
             .map(this::mapToLatestSearchDto)
             .toList();
     }
 
-    private LatestSearchDto mapToLatestSearchDto(LatestResult latestResult) {
+    private LatestSearchDto mapToLatestSearchDto(LatestResultEntity latestResultEntity) {
         return LatestSearchDto.builder()
-            .id(latestResult.getId().toString())
-            .searchString(latestResult.getSearchString())
+            .id(latestResultEntity.getId().toString())
+            .searchString(latestResultEntity.getSearchString())
             .build();
     }
 }

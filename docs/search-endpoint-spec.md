@@ -67,7 +67,7 @@ Content-Type: `application/json`
 |------------|-----------------|-----------------------------|
 | entityType | String          | Всегда `"SECTION"`          |
 | entityName | String          | Всегда `"Разделы"`          |
-| pages      | List\<PageDto\> | Найденные экраны приложения |
+| pageEntities      | List\<PageDto\> | Найденные экраны приложения |
 
 Каждый `PageDto` содержит: `name`, `link`, `icon`, `featureToggles`.
 
@@ -94,7 +94,7 @@ Content-Type: `application/json`
       {
         "entityType": "SECTION",
         "entityName": "Разделы",
-        "pages": [
+        "pageEntities": [
           {
             "name": "Перевод по номеру телефона",
             "link": "https://host/transfer/phone",
@@ -143,7 +143,7 @@ Content-Type: `application/json`
 Поиск по разным источникам:
 
 - **Поиск по разделам** (если `searchTypes` содержит `PAGE`):
-    - Выполняется SQL-запрос к таблице `pages` с использованием триграммного сходства по полю `dictionary`. Порог
+    - Выполняется SQL-запрос к таблице `pageEntities` с использованием триграммного сходства по полю `dictionary`. Порог
       similarity = 0.5
     - Результаты фильтруются по платформе (`platform`) и версии приложения (`clientVersion`)
     - Результаты сортируются по убыванию релевантности

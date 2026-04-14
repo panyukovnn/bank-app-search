@@ -8,10 +8,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.panyukovnn.bankappsearch.dto.SuggestedRequestData;
 import ru.panyukovnn.bankappsearch.dto.SuggestedResponseData;
+import ru.panyukovnn.bankappsearch.dto.SuggestedRequestData;
+import ru.panyukovnn.bankappsearch.dto.SearchSectionResponseData;
+import ru.panyukovnn.bankappsearch.dto.SearchSectionRequestData;
 import ru.panyukovnn.bankappsearch.dto.common.CommonRequest;
 import ru.panyukovnn.bankappsearch.dto.common.CommonResponse;
+import ru.panyukovnn.bankappsearch.service.SearchSectionService;
 import ru.panyukovnn.bankappsearch.service.SuggestedService;
 
 @RestController
@@ -21,6 +24,7 @@ import ru.panyukovnn.bankappsearch.service.SuggestedService;
 public class SearchController {
 
     private final SuggestedService suggestedService;
+    private final SearchSectionService searchSectionService;
 
     @PostMapping("/suggested")
     @Operation(summary = "Получить рекомендуемые результаты поиска")
@@ -30,5 +34,15 @@ public class SearchController {
         return CommonResponse.<SuggestedResponseData>builder()
             .data(responseData)
             .build();
+    }
+
+    @PostMapping
+    @Operation(summary = "Получить по разделам или по истории операций")
+    public CommonResponse<SearchSectionResponseData> findSections(@RequestBody @Valid CommonRequest<SearchSectionRequestData> request) {
+        SearchSectionResponseData responseData = searchSectionService.findSections(request.getData());
+
+        return CommonResponse.<SearchSectionResponseData>builder()
+                .data(responseData)
+                .build();
     }
 }

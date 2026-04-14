@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: "05.add_column_page.yml"
+      author: "Eremin IN"
+      changes:
+        - addColumn:
+            tableName: page
+            columns:
+              - column:
+                  name: icon
+                  type: varchar
+                  remarks: "Иконка экрана"

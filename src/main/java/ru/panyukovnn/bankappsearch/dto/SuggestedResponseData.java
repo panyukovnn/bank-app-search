@@ -16,11 +16,11 @@ import java.util.List;
 @Schema(description = "Данные ответа с рекомендуемыми результатами")
 public class SuggestedResponseData {
 
-    @NotNull
     @Schema(description = "Секции рекомендуемых результатов")
+    @NotNull(message = "Список секций рекомендуемых результатов не должен быть null")
     private List<SuggestedSectionDto> section;
 
-    @NotNull
     @Schema(description = "Последние поисковые запросы клиента")
+    @NotNull(message = "Список последних поисковых запросов клиента не должен быть null")
     private List<LatestSearchDto> latestSearch;
 }

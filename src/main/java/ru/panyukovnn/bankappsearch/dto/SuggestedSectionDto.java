@@ -17,15 +17,15 @@ import java.util.List;
 @Schema(description = "Секция рекомендуемых результатов")
 public class SuggestedSectionDto {
 
-    @NotEmpty
     @Schema(description = "Тип сущности секции")
+    @NotEmpty(message = "Имя типа сущности секции не должно быть пустым или null")
     private String entityType;
 
-    @NotEmpty
     @Schema(description = "Название секции")
+    @NotEmpty(message = "Название секции не должно быть пустым или null")
     private String entityName;
 
-    @NotNull
     @Schema(description = "Список страниц секции")
+    @NotNull(message = "Список страниц секции не должен быть null")
     private List<PageDto> pages;
 }
