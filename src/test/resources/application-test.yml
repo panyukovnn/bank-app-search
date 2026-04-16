@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          operation-history:
+            connect-timeout: 1000
+            read-timeout: 1000
+
+bank-app-search:
+  max-size-latest-results: 2

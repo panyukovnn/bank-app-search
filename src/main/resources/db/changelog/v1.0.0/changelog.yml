@@ -17,3 +17,9 @@ databaseChangeLog:
   - include:
       file: 04.insert_page.yml
       relativeToChangelogFile: true
+  - include:
+      file: 05.add_column_page.yml
+      relativeToChangelogFile: true
+  - include:
+      file: 06.update_page.yml
+      relativeToChangelogFile: true

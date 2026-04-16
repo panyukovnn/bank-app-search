@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: "06.update_page.yml"
+      author: "Eremin IN"
+      changes:
+        - sqlFile:
+            path: ./sql/20260406_02_update_page.sql
+            relativeToChangelogFile: true

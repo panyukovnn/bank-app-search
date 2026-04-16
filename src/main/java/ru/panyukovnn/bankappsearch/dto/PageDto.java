@@ -14,12 +14,12 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Страница мобильного приложения")
 public class PageDto {
 
-    @NotEmpty
     @Schema(description = "Название страницы")
+    @NotEmpty(message = "Название страницы не должно быть пустым или null")
     private String name;
 
-    @NotEmpty
     @Schema(description = "Ссылка на страницу в приложении")
+    @NotEmpty(message = "Ссылка на страницу в приложении не должна быть пустой или null")
     private String link;
 
     @Schema(description = "Иконка страницы")

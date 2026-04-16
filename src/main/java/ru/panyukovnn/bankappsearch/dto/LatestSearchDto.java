@@ -14,11 +14,11 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Последний поисковый запрос клиента")
 public class LatestSearchDto {
 
-    @NotEmpty
     @Schema(description = "Идентификатор результата поиска")
+    @NotEmpty(message = "Идентификатор результата поиска не должен быть пустым или null")
     private String id;
 
-    @NotEmpty
     @Schema(description = "Строка поискового запроса")
+    @NotEmpty(message = "Строка поискового запроса не должна быть пустой или null")
     private String searchString;
 }

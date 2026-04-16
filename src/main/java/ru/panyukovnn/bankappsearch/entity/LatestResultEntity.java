@@ -1,56 +1,44 @@
 package ru.panyukovnn.bankappsearch.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Objects;
 import java.util.UUID;
 
 /**
- * Страница мобильного приложения для поиска
+ * Последний результат поиска пользователя
  */
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Entity
-public class Page extends AuditableEntity {
+@Table(name = "latest_result")
+public class LatestResultEntity extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     /**
-     * Название страницы
+     * Идентификатор клиента
      */
-    private String name;
+    private String clientId;
     /**
-     * Версия приложения
+     * Строка поискового запроса
      */
-    private String version;
-    /**
-     * Платформа (ios, android)
-     */
-    private String platform;
-    /**
-     * Ссылка на страницу в приложении
-     */
-    private String link;
-    /**
-     * Словарь ключевых слов для поиска
-     */
-    private String dictionary;
-    /**
-     * Признак топового результата поиска
-     */
-    private Boolean topResult;
+    private String searchString;
 
     @Override
     public boolean equals(Object object) {
@@ -62,9 +50,9 @@ public class Page extends AuditableEntity {
             return false;
         }
 
-        Page page = (Page) object;
+        LatestResultEntity latestResultEntity = (LatestResultEntity) object;
 
-        return Objects.equals(id, page.id);
+        return Objects.equals(id, latestResultEntity.id);
     }
 
     @Override
